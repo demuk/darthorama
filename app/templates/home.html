@@ -29,7 +29,11 @@
                     <ul class="navbar-nav ms-auto py-4 py-lg-0">
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.html">Home</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.html">About</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.html">Sign In</a></li>
+                        {% if current_user.is_anonymous %}
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{url_for('login')}}">Sign In</a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{url_for('logout')}}">Sign Out</a></li>
+                        {% endif %}
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="contact.html">Contact</a></li>
                     </ul>
                 </div>
