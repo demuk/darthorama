@@ -1,7 +1,7 @@
 from app import app
 from flask import render_template, redirect, url_for, request, flash
 from app import app, db
-from app.models import User
+from app.models import Post, User
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_user,login_required,logout_user
 
@@ -10,7 +10,8 @@ from flask_login import current_user, login_user,login_required,logout_user
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('home.html')
+    
+    return render_template('home.html', user=user)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -20,7 +21,20 @@ def register():
         db.session.commit()
         return render_template('signin.html')
     flash('Your account has been created!', 'success')
-    return render_template('signup.html')
+    return render_template('signup.html', user=user)
+
+
+@app.route('/add_post',methods=['GET','POST'])
+@login_required
+def add_post():
+    if request.method == 'POST':
+        body = request.form['body']
+        post = Post(body=body,user_id=current_user.id)
+        db.session.add(post)
+        db.session.commit()
+        return redirect(url_for('home'))
+    return render_template('addpost.html')
+
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -42,6 +56,8 @@ def login():
 def contact():
 
     return render_template('contact.html')
+
+
 
 
 @app.route('/about')
