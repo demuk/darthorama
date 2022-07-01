@@ -10,8 +10,8 @@ from flask_login import current_user, login_user,login_required,logout_user
 @app.route('/')
 @app.route('/home')
 def home():
-    
-    return render_template('home.html', user=user)
+    posts = Post.query.all()
+    return render_template('home.html', posts=posts)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -21,15 +21,17 @@ def register():
         db.session.commit()
         return render_template('signin.html')
     flash('Your account has been created!', 'success')
-    return render_template('signup.html', user=user)
+    return render_template('signup.html')
 
 
 @app.route('/add_post',methods=['GET','POST'])
 @login_required
 def add_post():
+    user = User.query.all()
     if request.method == 'POST':
+        title = request.form['title']
         body = request.form['body']
-        post = Post(body=body,user_id=current_user.id)
+        post = Post(title=title,body=body,user_id=current_user.id)
         db.session.add(post)
         db.session.commit()
         return redirect(url_for('home'))
