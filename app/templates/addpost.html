@@ -18,7 +18,7 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
-
+    
 </head>
 <body>
     
@@ -31,20 +31,23 @@
 
   <!-- Message input -->
   <div class="form-outline mb-4">
-    <textarea class="form-control" name="body" id="form4Example3" rows="4"></textarea>
-    <label class="form-label"  for="form4Example3">Post</label>
+    {{ ckeditor.create() }}
+    <!-- <textarea class="form-control" name="body" id="form4Example3" rows="4"></textarea>
+    <label class="form-label"  for="form4Example3">Post</label> -->
+
+    <input type="submit" value='Submit'>
+
   </div>
+    {{ ckeditor.load() }}
+    {{ ckeditor.config(name='body') }}
 
-  <!-- Submit button -->
-  <button type="submit" class="btn btn-primary btn-block mb-4">
-    Post
-  </button>
 </form>
-
-</body>
 
     <!-- Custom scripts for all pages-->
     <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <script src="https://cdn.ckeditor.com/4.10.0/standard/ckeditor.js"></script>
+
+
 
 </body>
 
