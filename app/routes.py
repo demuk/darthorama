@@ -16,7 +16,8 @@ def home():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        user=User(username=request.form['username'],email=request.form['email'],password_hash=generate_password_hash(request.form['password']))
+        user=User(username=request.form['username'],email=request.form['email'],
+            password_hash=generate_password_hash(request.form['password']))
         db.session.add(user)
         db.session.commit()
         return render_template('signin.html')
@@ -30,7 +31,7 @@ def add_post():
     user = User.query.all()
     if request.method == 'POST':
         title = request.form['title']
-        body = request.form['body']
+        body = request.form.get('ckeditor')
         post = Post(title=title,body=body,user_id=current_user.id)
         db.session.add(post)
         db.session.commit()
@@ -56,11 +57,21 @@ def login():
 
 @app.route('/contact')
 def contact():
-
     return render_template('contact.html')
 
 
 
+@app.route('/view_post/<int:id>')
+@login_required
+def view_post(id):
+    post = Post.query.get(id)
+    return render_template('post.html', post=post)
+
+
+@app.route('/auth_profile/<int:id>')
+def auth_profile(id):
+    author = User.query.get(id)
+    return render_template('author_profile.html', author=author)
 
 @app.route('/about')
 def about():
