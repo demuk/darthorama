@@ -8,4 +8,5 @@ class Config(object):
                               'sqlite:///' + os.path.join(basedir, 'darthorama.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = 'kjfdkjfkdjfkdjfkdkdklfjlksjdfkldjfkldf'
+    CKEDITOR_PKG_TYPE = 'full-all'
 
