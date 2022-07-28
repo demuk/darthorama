@@ -4,6 +4,9 @@ from app import app, db
 from app.models import Post, User
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_user,login_required,logout_user
+import string
+import secrets
+import os
 
 
 
@@ -16,7 +19,9 @@ def home():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        user=User(username=request.form['username'],email=request.form['email'],
+        alphabet = string.ascii_letters + string.digits
+        user_key = ''.join(secrets.choice(alphabet) for i in range(32))
+        user=User(username=request.form['username'],user_key=user_key,email=request.form['email'],
             password_hash=generate_password_hash(request.form['password']))
         db.session.add(user)
         db.session.commit()
@@ -30,9 +35,11 @@ def register():
 def add_post():
     user = User.query.all()
     if request.method == 'POST':
+        alphabet = string.ascii_letters + string.digits
+        post_key = ''.join(secrets.choice(alphabet) for i in range(32))
         title = request.form['title']
         body = request.form.get('ckeditor')
-        post = Post(title=title,body=body,user_id=current_user.id)
+        post = Post(title=title,body=body,post_key=post_key,user_id=current_user.id)
         db.session.add(post)
         db.session.commit()
         return redirect(url_for('home'))
@@ -61,10 +68,10 @@ def contact():
 
 
 
-@app.route('/view_post/<int:id>')
+@app.route('/view_post/<post_key>')
 @login_required
-def view_post(id):
-    post = Post.query.get(id)
+def view_post(post_key):
+    post = Post.query.get(post_key)
     return render_template('post.html', post=post)
 
 
