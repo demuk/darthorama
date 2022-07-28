@@ -64,6 +64,7 @@ def login():
 
 @app.route('/contact')
 def contact():
+    
     return render_template('contact.html')
 
 
@@ -71,13 +72,13 @@ def contact():
 @app.route('/view_post/<post_key>')
 @login_required
 def view_post(post_key):
-    post = Post.query.get(post_key)
+    post=Post.query.filter_by(post_key=post_key).first()
     return render_template('post.html', post=post)
 
 
-@app.route('/auth_profile/<int:id>')
-def auth_profile(id):
-    author = User.query.get(id)
+@app.route('/auth_profile/<user_key>')
+def auth_profile(user_key):
+    author = User.query.get(user_key)
     return render_template('author_profile.html', author=author)
 
 @app.route('/about')
