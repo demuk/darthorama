@@ -57,7 +57,7 @@
                         {%for post in author.posts%}
                       <div class="post-preview">
 
-                        <a href="{{url_for('view_post', id=post.id)}}">
+                        <a href="{{url_for('view_post', post_key=post.post_key)}}">
                             <h2 class="post-title">{{ post.title }}</h2>
                             <h3 class="post-subtitle">Problems look mighty small from 150 miles up</h3>
                         </a>
