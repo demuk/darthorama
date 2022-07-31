@@ -1,4 +1,4 @@
-from app import app
+from app import app, Mail, Message, mail
 from flask import render_template, redirect, url_for, request, flash
 from app import app, db
 from app.models import Post, User
@@ -62,9 +62,17 @@ def login():
     return render_template('signin.html')
 
 
-@app.route('/contact')
+@app.route('/contact', methods=['POST', 'GET'])
 def contact():
-    
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        message = request.form['message']
+        recipients =["denysmutay@gmail.com"]
+        sender = 'kiptoodennismutai@outlook.com'
+        message = Message(body=f"Name: {name}\n EMail: {email}\n Message:{message}",
+                      recipients=recipients, sender=sender)
+        mail.send(message)
     return render_template('contact.html')
 
 
