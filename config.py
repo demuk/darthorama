@@ -9,4 +9,9 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = 'kjfdkjfkdjfkdjfkdkdklfjlksjdfkldjfkldf'
     CKEDITOR_PKG_TYPE = 'full-all'
-
+    MAIL_SERVER: 'smtp.office365.com'
+    MAIL_PORT: 465
+    MAIL_USE_TLS: True
+    MAIL_USE_SSL: False
+    MAIL_USERNAME: "kiptoodennismutai@outlook.com"
+    MAIL_PASSWORD: "kiptoodennis123" 
