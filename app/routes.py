@@ -9,7 +9,6 @@ import secrets
 import os
 
 
-
 @app.route('/')
 @app.route('/home')
 def home():
@@ -76,7 +75,6 @@ def contact():
     return render_template('contact.html')
 
 
-
 @app.route('/view_post/<post_key>')
 @login_required
 def view_post(post_key):
@@ -88,6 +86,7 @@ def view_post(post_key):
 def auth_profile(user_key):
     author = User.query.get(user_key)
     return render_template('author_profile.html', author=author)
+
 
 @app.route('/about')
 def about():
